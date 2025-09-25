@@ -17,7 +17,7 @@ public class Brain_segmentation {
         String vmIpAddress = "172.20.23.157";
         String username = "appUser";
         String password = "Brain@123";
-        String containerName = "brain_segmentation_api";  
+        String containerName = "brain-segmentation-api";  
 
         System.out.println("Brain_segmentation Docker Name = " + containerName);
 
@@ -56,7 +56,7 @@ public class Brain_segmentation {
 
             // If container is not running, send alert
             if (!isRunning) {
-                sendEmailAlert("Hi,\n\n🚨 This is Brain_segmentation Docker (brain_segmentation_api). I am currently down. Kindly restart the container at your earliest convenience.");
+                sendEmailAlert("Hi,\n\n🚨 This is Brain_segmentation Docker (brain-segmentation-api). I am currently down. Kindly restart the container at your earliest convenience.");
                 assert false : "Container is not in the expected state.";
             }
 
@@ -121,3 +121,4 @@ public class Brain_segmentation {
         }
     }
 }
+

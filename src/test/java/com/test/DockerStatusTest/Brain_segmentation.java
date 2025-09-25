@@ -17,12 +17,12 @@ public class Brain_segmentation {
         String vmIpAddress = "172.20.23.157";
         String username = "appUser";
         String password = "Brain@123";
-        String containerId = "476fb039a715";
+        String containerName = "brain_segmentation_api";  
 
-        System.out.println("Brain_segmentation Docker ID = " + containerId);
+        System.out.println("Brain_segmentation Docker Name = " + containerName);
 
-        if (containerId.isEmpty()) {
-            System.out.println("Container ID is required.");
+        if (containerName.isEmpty()) {
+            System.out.println("Container name is required.");
             return;
         }
 
@@ -33,9 +33,9 @@ public class Brain_segmentation {
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
 
-            // Execute the docker inspect command to check the container's status
+            // ✅ Inspect container by name
             ChannelExec channel = (ChannelExec) session.openChannel("exec");
-            channel.setCommand("docker inspect --format='{{.State.Status}}' " + containerId);
+            channel.setCommand("docker inspect --format='{{.State.Status}}' " + containerName);
             channel.setInputStream(null);
             channel.setErrStream(System.err);
             BufferedReader reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
@@ -56,7 +56,7 @@ public class Brain_segmentation {
 
             // If container is not running, send alert
             if (!isRunning) {
-                sendEmailAlert("Hi,\n\n🚨 This is Brain_segmentation Docker. I am currently down. Kindly restart the container at your earliest convenience.");
+                sendEmailAlert("Hi,\n\n🚨 This is Brain_segmentation Docker (brain_segmentation_api). I am currently down. Kindly restart the container at your earliest convenience.");
                 assert false : "Container is not in the expected state.";
             }
 
@@ -82,7 +82,7 @@ public class Brain_segmentation {
             "gayathri@htic.iitm.ac.in"
         };
 
-        String subject = "Docker Container Alert -Brain_segmentation";
+        String subject = "Docker Container Alert - Brain_segmentation";
         final String username = "automationsoftware25@gmail.com";
         final String password = "wjzcgaramsqvagxu"; // App-specific password
 
@@ -102,7 +102,6 @@ public class Brain_segmentation {
             Message message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(from, "Docker Monitor"));
 
-            // Convert arrays to comma-separated strings
             message.setRecipients(
                 Message.RecipientType.TO,
                 InternetAddress.parse(String.join(",", to))
@@ -122,4 +121,3 @@ public class Brain_segmentation {
         }
     }
 }
-
